@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1254 1254">
+  <defs>
+    <mask id="logo-mask" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse" x="0" y="0" width="1254" height="1254" style="mask-type:luminance">
+      <image href="/asssets/logo.png" width="1254" height="1254" />
+    </mask>
+  </defs>
+  <rect width="1254" height="1254" fill="#ffffff" mask="url(#logo-mask)" />
+</svg>
