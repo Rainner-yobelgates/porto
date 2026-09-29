@@ -2,44 +2,9 @@
 import { profile } from '../../../content/portfolio'
 
 const wordmark = profile.shortName.toUpperCase()
-const typedWordmark = ref('')
-const hasTyped = useState('hero-wordmark-typed', () => false)
-const isTyping = ref(false)
-const isComplete = ref(false)
-let timer: ReturnType<typeof setTimeout> | undefined
-
-onMounted(() => {
-  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches
-
-  if (hasTyped.value || reducedMotion) {
-    typedWordmark.value = wordmark
-    isComplete.value = true
-    return
-  }
-
-  hasTyped.value = true
-  isTyping.value = true
-  let index = 0
-
-  const typeNextCharacter = () => {
-    index += 1
-    typedWordmark.value = wordmark.slice(0, index)
-
-    if (index < wordmark.length) {
-      timer = setTimeout(typeNextCharacter, 135)
-      return
-    }
-
-    isTyping.value = false
-    timer = setTimeout(() => {
-      isComplete.value = true
-    }, 1000)
-  }
-
-  timer = setTimeout(typeNextCharacter, 480)
-})
-
-onBeforeUnmount(() => clearTimeout(timer))
+const text = ref<HTMLElement | null>(null)
+const baseline = ref<HTMLElement | null>(null)
+const { phase, characters, cursorX, cursorTop, cursorHeight } = useHeroTyping(text, wordmark, baseline)
 </script>
 <template>
   <section class="search-hero">
@@ -48,11 +13,27 @@ onBeforeUnmount(() => clearTimeout(timer))
     </div>
     <h1
       class="hero-wordmark"
-      :class="{ 'is-typing': isTyping, 'is-complete': isComplete }"
+      :class="`typing-${phase}`"
       :aria-label="wordmark"
     >
-      <span class="hero-typed" aria-hidden="true">{{ typedWordmark }}</span>
-      <span class="hero-caret" aria-hidden="true" />
+      <span ref="text" class="hero-typed hero-wordmark-base" aria-hidden="true">{{ wordmark }}<span ref="baseline" class="hero-baseline" /></span>
+      <!-- Each layer preserves the full word's kerning and continuous gradient. -->
+      <span
+        v-for="(character, index) in characters"
+        :key="index"
+        class="hero-typed hero-character-layer"
+        aria-hidden="true"
+        :style="{ clipPath: character.clipPath, '--character-delay': `${character.delay}ms` }"
+      >{{ wordmark }}</span>
+      <span
+        class="hero-caret"
+        aria-hidden="true"
+        :style="{
+          transform: `translateX(${cursorX}px)`,
+          '--caret-top': `${cursorTop}px`,
+          '--caret-height': `${cursorHeight}px`,
+        }"
+      ><span class="hero-caret-light" /></span>
     </h1>
     <SearchBar />
     <ShortcutNavigation />
