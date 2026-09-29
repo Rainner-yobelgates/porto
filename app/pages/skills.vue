@@ -23,7 +23,6 @@ usePageSeo(
     </div>
     <div v-reveal="90" class="page-note">
       <AppIcon name="code" :size="18" />
-      <p>This portfolio is built with Nuxt, Vue, and TypeScript.</p>
     </div>
   </div>
 </template>

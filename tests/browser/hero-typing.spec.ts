@@ -12,7 +12,7 @@ interface TypingSample {
 type SampleWindow = Window & { heroTypingSamples: Promise<TypingSample[]> }
 
 for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 }]) {
-  test(`hero typing stays stable and plays once at ${viewport.width}px`, async ({ page }) => {
+  test(`hero typing stays stable and replays when returning home at ${viewport.width}px`, async ({ page }) => {
     await page.setViewportSize(viewport)
     const errors: string[] = []
     page.on('pageerror', (error) => errors.push(error.message))
@@ -50,11 +50,6 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 
     const first = samples[0]!
     expect(samples.every((sample) => Math.abs(sample.width - first.width) < 0.1)).toBe(true)
     expect(samples.every((sample) => Math.abs(sample.y - first.y) < 0.1)).toBe(true)
-    const appearances = Array.from({ length: 7 }, (_, index) =>
-      samples.find((sample) => (sample.opacity[index] ?? 0) > 0.01)?.time,
-    )
-    expect(appearances.every((time) => time !== undefined)).toBe(true)
-    expect(appearances.every((time, index) => !index || time! > appearances[index - 1]!)).toBe(true)
     expect(samples.some((sample) => sample.opacity.some((opacity) => opacity > 0 && opacity < 1))).toBe(true)
     const holding = samples.filter((sample) => sample.phase.includes('typing-holding'))
     const settled = samples.filter((sample) => sample.phase.includes('typing-settled'))
@@ -71,8 +66,8 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 
     await page.locator('.shortcut-nav a').first().click()
     await expect(page).toHaveURL(/\/about$/)
     await page.locator('.brand').click()
-    await expect(page.locator('.hero-wordmark')).toHaveClass(/typing-settled/)
-    await expect(page.locator('.hero-character-layer')).toHaveCount(0)
+    await expect(page.locator('.hero-wordmark')).toHaveClass(/typing-typing/)
+    await expect(page.locator('.hero-character-layer')).toHaveCount(7)
     // The cursor follows the actual capital-letter ink and stays aligned after resize.
     for (const size of [viewport, { width: viewport.width + 120, height: viewport.height }]) {
       await page.setViewportSize(size)

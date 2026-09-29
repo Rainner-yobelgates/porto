@@ -11,10 +11,7 @@ export function useHeroTyping(
   word: string,
   baseline: Ref<HTMLElement | null>,
 ) {
-  const hasPlayed = useState('hero-wordmark-typed', () => false)
-  const phase = ref<'waiting' | 'typing' | 'holding' | 'settled'>(
-    hasPlayed.value ? 'settled' : 'waiting',
-  )
+  const phase = ref<'waiting' | 'typing' | 'holding' | 'settled'>('waiting')
   const characters = ref<TypingCharacter[]>([])
   const cursorX = ref(0)
   const cursorTop = ref(0)
@@ -81,8 +78,7 @@ export function useHeroTyping(
   onMounted(async () => {
     media = matchMedia('(prefers-reduced-motion: reduce)')
     media.addEventListener('change', motionChanged)
-    const shouldAnimate = !hasPlayed.value && !media.matches
-    hasPlayed.value = true
+    const shouldAnimate = !media.matches
     if (!shouldAnimate) settle()
     await document.fonts.ready
     if (disposed) return
