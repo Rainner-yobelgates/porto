@@ -5,11 +5,12 @@ usePageSeo('About', profile.summary)
 <template>
   <div class="page-content">
     <SectionHeader
+      v-reveal
       eyebrow="01 / The person behind the work"
       :title="`Hello, I’m ${profile.shortName}.`"
       description="Curiosity drives the work. People give it purpose."
     />
-    <div class="about-grid">
+    <div v-reveal="70" class="about-grid">
       <div class="profile-monogram" aria-label="Profile image placeholder">
         <span class="monogram-orbit" />
         <span>
@@ -49,7 +50,7 @@ usePageSeo('About', profile.summary)
         </NuxtLink>
       </div>
     </div>
-    <section class="education-card panel">
+    <section v-reveal="120" class="education-card panel">
       <span class="section-icon"><AppIcon name="book" /></span>
       <div>
         <p class="eyebrow">Education · {{ education.period }}</p>

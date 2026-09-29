@@ -19,10 +19,11 @@ usePageSeo(
 <template>
   <div class="page-content">
     <SectionHeader
+      v-reveal
       eyebrow="05 / Good things start with a conversation"
       title="Let’s build something useful."
     />
-    <div class="contact-grid">
+    <div v-reveal="70" class="contact-grid">
       <div class="contact-copy">
         <p>Have a project in mind, a question about my work, or just want to say hello?</p>
         <p>I’d be glad to hear from you.</p>

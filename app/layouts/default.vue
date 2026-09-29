@@ -13,18 +13,11 @@ const isHome = computed(() => route.path === '/')
         <section v-if="!isHome" class="inner-search" aria-label="Discover the portfolio">
           <SearchBar compact />
           <ShortcutNavigation />
-          <RecentSearches />
         </section>
         <slot />
       </main>
       <footer class="app-footer">
-        <span>Thoughtfully built. Always evolving.</span>
-        <span>
-          <span class="footer-dot" />
-          Powered by curiosity
-          <span class="footer-divider">/</span>
-          Built with Nuxt
-        </span>
+        <span>© Rainner Yobelgates</span>
       </footer>
     </div>
   </div>

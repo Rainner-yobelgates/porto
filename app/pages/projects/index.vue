@@ -13,11 +13,12 @@ const filtered = computed(() =>
 <template>
   <div class="page-content">
     <SectionHeader
+      v-reveal
       eyebrow="02 / Ideas into applications"
       title="An index of my work."
       description="Systems, platforms, and websites built around real-world needs."
     />
-    <div class="filter-toolbar">
+    <div v-reveal="50" class="filter-toolbar">
       <div class="filter-chips" aria-label="Filter projects">
         <button
           v-for="filter in filters"
@@ -33,6 +34,7 @@ const filtered = computed(() =>
     </div>
     <div class="project-list">
       <ProjectResult
+        v-reveal="index * 55"
         v-for="(project, index) in filtered"
         :key="project.slug"
         :project="project"

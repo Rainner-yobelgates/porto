@@ -2,7 +2,8 @@
 import { profile, suggestedSearches } from '../../../content/portfolio'
 defineProps<{ compact?: boolean }>()
 const { query, search } = usePortfolioSearch()
-const { recentSearches } = useRecentSearches()
+const { recentSearches, clear } = useRecentSearches()
+const route = useRoute()
 const input = ref<HTMLInputElement | null>(null)
 const root = ref<HTMLElement | null>(null)
 const value = ref(query.value)
@@ -69,6 +70,13 @@ function clearInput() {
   value.value = ''
   input.value?.focus()
 }
+async function clearHistory() {
+  clear()
+
+  if (route.path === '/search') {
+    await navigateTo('/', { replace: true })
+  }
+}
 </script>
 <template>
   <div
@@ -117,6 +125,10 @@ function clearInput() {
     </form>
     <Transition name="suggestions">
       <div v-if="opened" class="suggestion-panel">
+        <div v-if="recentSearches.length" class="suggestion-heading">
+          <span>Recent searches</span>
+          <button type="button" class="text-button" @click="clearHistory">Clear all</button>
+        </div>
         <ul :id="`${listId}-suggestions`" role="listbox" aria-label="Search suggestions">
           <li
             v-for="(suggestion, index) in suggestions"

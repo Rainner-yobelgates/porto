@@ -19,6 +19,5 @@ useHead({
 <template>
   <div class="home-content">
     <SearchHero />
-    <RecentSearches />
   </div>
 </template>

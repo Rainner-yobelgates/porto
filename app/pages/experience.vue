@@ -8,10 +8,11 @@ usePageSeo(
 <template>
   <div class="page-content">
     <SectionHeader
+      v-reveal
       eyebrow="04 / Learning through building"
       title="The journey so far."
       description="From web development to systems, integrations, and the people who use them."
     />
-    <ExperienceTimeline />
+    <ExperienceTimeline v-reveal="70" />
   </div>
 </template>

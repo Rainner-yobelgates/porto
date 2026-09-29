@@ -8,14 +8,20 @@ usePageSeo(
 <template>
   <div class="page-content">
     <SectionHeader
+      v-reveal
       eyebrow="03 / The developer’s toolkit"
       title="Tools for the task."
       description="The languages, frameworks, and tools I work with to bring ideas to life."
     />
     <div class="skills-grid">
-      <SkillGroup v-for="group in skillGroups" :key="group.id" :group="group" />
+      <SkillGroup
+        v-for="(group, index) in skillGroups"
+        :key="group.id"
+        v-reveal="index * 70"
+        :group="group"
+      />
     </div>
-    <div class="page-note">
+    <div v-reveal="90" class="page-note">
       <AppIcon name="code" :size="18" />
       <p>This portfolio is built with Nuxt, Vue, and TypeScript.</p>
     </div>
